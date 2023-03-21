@@ -254,7 +254,7 @@ class QwirkeleController:
             players = list()
             for client in self.__clients:
                 players.append(client.get_player)
-            if self.__gamerules.game_over(players, self.__board):
+            if self.__gamerules.game_over(players, self.__board, self.__tile_bag):
                 self.__active = False
                 # set self.__active to false
         self.__curr_player = (self.__curr_player + 1) % len(self.__clients)
