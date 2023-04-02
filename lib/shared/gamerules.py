@@ -29,9 +29,18 @@ class Gamerules:
             A boolean list corresponding to the validity of the move, true if the move is
                 determined to be legal, false if it is not.
         """
+                
+        for placement in move:
+            board.add_tile(placement)      
+
         for placement in move:
             if self.verify_placement(placement, board) is False:
+                for place in move:
+                    board.get_board()[place.y_coord][place.x_coord] = 0
                 return False
+         
+        for place in move:
+            board.get_board()[place.y_coord][place.x_coord] = 0
 
         return True
 
@@ -56,6 +65,9 @@ class Gamerules:
         y_count = 0
         x_count = 0
         skip = False
+        check_shape = True
+        check_color = True
+        connected_to_perm = False
         for i in range(5):  # Checks up to 5 tiles above the horizontal
             if placement.y_coord + i + 1 > 217:
                 break
@@ -67,9 +79,20 @@ class Gamerules:
                 break
             else:
                 if (
-                    temp_tile.shape == placement.tile.shape
-                    or temp_tile.color == placement.tile.color
+                    temp_tile.shape == placement.tile.shape #if shape matches we are not checking for color
                 ):
+                    check_color = False
+                if temp_tile.color == placement.tile.color: #if color matches we are not checking for shape
+                    check_shape = False
+
+                if not temp_tile.is_temporary():
+                    connected_to_perm = True
+
+                if(temp_tile.shape != placement.tile.shape and temp_tile.color != placement.tile.color):
+                    y_line = None
+                    return x_line, y_line
+
+                if (check_color or check_shape) and (check_shape != check_color): #if one is true then we have valid line
                     y_line.append(temp_placement)
                     y_count += 1
                 else:  # If the line contains an invalid match
@@ -95,9 +118,20 @@ class Gamerules:
                     break
                 else:
                     if (
-                        temp_tile.shape == placement.tile.shape
-                        or temp_tile.color == placement.tile.color
+                    temp_tile.shape == placement.tile.shape #if shape matches we are not checking for color
                     ):
+                        check_color = False
+                    if temp_tile.color == placement.tile.color: #if color matches we are not checking for shape
+                        check_shape = False
+
+                    if not temp_tile.is_temporary():
+                        connected_to_perm = True
+
+                    if(temp_tile.shape != placement.tile.shape and temp_tile.color != placement.tile.color):
+                        y_line = None
+                        return x_line, y_line 
+
+                    if (check_color or check_shape) and (check_shape != check_color): #if one is true then we have valid line
                         y_line.append(temp_placement)
                         y_count += 1
                     else:  # If the line contains an invalid match
@@ -107,6 +141,9 @@ class Gamerules:
                 if y_count > 5 or temp_tile == placement.tile:
                     y_line = None
                     break
+
+        check_shape = True
+        check_color = True
 
         # Gets the x_line
         for i in range(5):  # Checks up to 5 tiles to the right of the vertical
@@ -120,9 +157,20 @@ class Gamerules:
                 break
             else:
                 if (
-                    temp_tile.shape == placement.tile.shape
-                    or temp_tile.color == placement.tile.color
+                    temp_tile.shape == placement.tile.shape #if shape matches we are not checking for color
                 ):
+                    check_color = False
+                if temp_tile.color == placement.tile.color: #if color matches we are not checking for shape
+                    check_shape = False
+
+                if(temp_tile.shape != placement.tile.shape and temp_tile.color != placement.tile.color):
+                    x_line = None
+                    return x_line, y_line
+
+                if not temp_tile.is_temporary():
+                    connected_to_perm = True
+
+                if (check_color or check_shape) and (check_shape != check_color): #if one is true then we have valid line
                     x_line.append(temp_placement)
                     x_count += 1
                 else:  # if there is an invalid match in the line
@@ -144,9 +192,20 @@ class Gamerules:
                 break
             else:
                 if (
-                    temp_tile.shape == placement.tile.shape
-                    or temp_tile.color == placement.tile.color
+                    temp_tile.shape == placement.tile.shape #if shape matches we are not checking for color
                 ):
+                    check_color = False
+                if temp_tile.color == placement.tile.color: #if color matches we are not checking for shape
+                    check_shape = False
+
+                if not temp_tile.is_temporary():
+                    connected_to_perm = True
+
+                if(temp_tile.shape != placement.tile.shape and temp_tile.color != placement.tile.color):
+                    x_line = None 
+                    return x_line, y_line
+
+                if (check_color or check_shape) and (check_shape != check_color): #if one is true then we have valid line
                     x_line.append(temp_placement)
                     x_count += 1
                 else:
@@ -156,7 +215,10 @@ class Gamerules:
             if x_count > 5 or temp_tile == placement.tile:
                 x_line = None
                 break
-
+        
+        if not connected_to_perm and np.count_nonzero(board.get_board()) != x_count + y_count + 1:
+            return None, None
+        
         return x_line, y_line
 
     def verify_placement(self, placement: Placement, board: Board) -> bool:
@@ -172,9 +234,9 @@ class Gamerules:
             False: if it is not a valid placement
         """
         x_line, y_line = self.get_lines(placement, board)
-        if np.count_nonzero(board.get_board()) == 0:
+        if np.count_nonzero(board.get_board()) == 1:
             return True
-        elif x_line == [] and y_line == [] or x_line is None or y_line is None:
+        elif (x_line == [] and y_line == []) or x_line is None or y_line is None:
             return False
         else:
             return True
