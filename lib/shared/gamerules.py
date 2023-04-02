@@ -39,7 +39,9 @@ class Gamerules:
                     board.get_board()[place.y_coord][place.x_coord] = 0
                 return False
          
-
+        for place in move:
+            board.get_board()[place.y_coord][place.x_coord] = 0
+            
         return True
 
     def get_lines(self, placement: Placement, board: Board):
