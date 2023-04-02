@@ -412,7 +412,7 @@ class Gamerules:
         tiles = set(bag)
 
         for player in players:
-            tiles += player.get_hand
+            tiles.add(set(player.get_hand()))
         for pos in pos_tuples:
             for tile in tiles:
                 above = Placement(tile, pos + (0, 1))
