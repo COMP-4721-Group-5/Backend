@@ -1,11 +1,9 @@
 #!/usr/bin/python3
 
-from argparse import ArgumentError
 from argparse import ArgumentParser
 from argparse import RawTextHelpFormatter
 import logging
 import socket
-import sys
 from queue import Queue
 from typing import Final, List
 
