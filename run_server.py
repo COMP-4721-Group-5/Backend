@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 
-from argparse import ArgumentParser, RawTextHelpFormatter
+from argparse import ArgumentError
+from argparse import ArgumentParser
+from argparse import RawTextHelpFormatter
 import logging
 import socket
 import sys
@@ -14,25 +16,38 @@ from lib.backend.server_components import Request
 MIN_PLAYERS: Final[int] = 2
 MAX_PLAYERS: Final[int] = 4
 
+
 def main():
-    parser = ArgumentParser(description="Qwirkle Server", formatter_class=RawTextHelpFormatter)
-    parser.add_argument("--address", nargs=1, help="Address to bind the socket", type=int, default="")
-    parser.add_argument("--port", nargs=1, help="Port number to bind the socket", type=int, default=1234)
-    parser.add_argument("--players", nargs=1, help="Number of players to join this server", type=int, default=2)
+    parser = ArgumentParser(
+        description="Qwirkle Server", formatter_class=RawTextHelpFormatter
+    )
+    parser.add_argument(
+        "--address", nargs=1, help="Address to bind the socket", default=""
+    )
+    parser.add_argument(
+        "--port",
+        nargs=1,
+        help="Port number to bind the socket (default: %(default)d)",
+        type=int,
+        default=[1234],
+    )
+    parser.add_argument(
+        "--players",
+        nargs=1,
+        help="Number of players to join this server (default: %(default)d)",
+        type=int,
+        choices=range(MIN_PLAYERS, MAX_PLAYERS + 1),
+        default=MIN_PLAYERS,
+    )
 
     args = parser.parse_args()
 
     address = args.address
-    port = args.port
+    port = args.port[0]
     players = args.players
 
     if port <= 0:
-        print(f"Invalid port number: {port}", file=sys.stderr)
-        sys.exit(1)
-
-    if players not in range(MIN_PLAYERS, MAX_PLAYERS + 1):
-        print(f"Invalid number of players: {players}", file=sys.stderr)
-        sys.exit(1)
+        raise ValueError(f"Invalid port number: {port}")
 
     logging.basicConfig(
         encoding="utf-8",
@@ -77,5 +92,6 @@ def main():
                 connection.stop_listening()
             raise ex
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
