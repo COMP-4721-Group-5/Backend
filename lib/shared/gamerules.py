@@ -422,6 +422,8 @@ class Gamerules:
             if self.verify_placement(above) or self.verify_placement(below) or self.verify_placement(right) or self.verify_placement(left):
                 return False
         
+        return True
+        
         # Every element in pos_tuple give (x,y) tuple
         # that has tile on the board
         """
