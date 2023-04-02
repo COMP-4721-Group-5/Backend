@@ -62,8 +62,8 @@ class Gamerules:
         """
         x_line = list()
         y_line = list()
-        y_count = 1
-        x_count = 1
+        y_count = 0
+        x_count = 0
         skip = False
         check_shape = True
         check_color = True
