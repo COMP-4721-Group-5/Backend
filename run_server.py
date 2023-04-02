@@ -1,17 +1,38 @@
 #!/usr/bin/python3
 
+from argparse import ArgumentParser, RawTextHelpFormatter
 import logging
 import socket
+import sys
 from queue import Queue
-import random as rand
-from typing import List
+from typing import Final, List
 
 from lib.backend.Logic_backend import QwirkeleController
 from lib.backend.server_components import ClientConnection
 from lib.backend.server_components import Request
 
+MIN_PLAYERS: Final[int] = 2
+MAX_PLAYERS: Final[int] = 4
+
 def main():
-    port = 1234
+    parser = ArgumentParser(description="Qwirkle Server", formatter_class=RawTextHelpFormatter)
+    parser.add_argument("--address", nargs=1, help="Address to bind the socket", type=int, default="")
+    parser.add_argument("--port", nargs=1, help="Port number to bind the socket", type=int, default=1234)
+    parser.add_argument("--players", nargs=1, help="Number of players to join this server", type=int, default=2)
+
+    args = parser.parse_args()
+
+    address = args.address
+    port = args.port
+    players = args.players
+
+    if port <= 0:
+        print(f"Invalid port number: {port}", file=sys.stderr)
+        sys.exit(1)
+
+    if players not in range(MIN_PLAYERS, MAX_PLAYERS + 1):
+        print(f"Invalid number of players: {players}", file=sys.stderr)
+        sys.exit(1)
 
     logging.basicConfig(
         encoding="utf-8",
@@ -21,14 +42,14 @@ def main():
     logging.info("Starting server...")
 
     sock_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock_server.bind(("", port))
-    logging.info(f"Listening on port {port}")
+    sock_server.bind((address, port))
+    logging.info(f"Listening on {address}:{port}")
     sock_server.listen()
 
     connections: List[ClientConnection] = list()
     request_queue: Queue[Request] = Queue()
 
-    for i in range(1):  # Arbitrary limitation of 2 players for POC
+    for i in range(players):  # Arbitrary limitation of 2 players for POC
         csock, addr = sock_server.accept()
         logging.info(f"Received connection from {addr}")
         connections.append(ClientConnection(csock, addr, request_queue))
