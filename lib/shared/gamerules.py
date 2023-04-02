@@ -89,7 +89,8 @@ class Gamerules:
                     connected_to_perm = True
 
                 if(temp_tile.shape != placement.tile.shape and temp_tile.color != placement.tile.color):
-                    y_line = None   
+                    y_line = None
+                    return x_line, y_line
 
                 if (check_color or check_shape) and (check_shape != check_color): #if one is true then we have valid line
                     y_line.append(temp_placement)
@@ -127,7 +128,8 @@ class Gamerules:
                         connected_to_perm = True
 
                     if(temp_tile.shape != placement.tile.shape and temp_tile.color != placement.tile.color):
-                        y_line = None    
+                        y_line = None
+                        return x_line, y_line 
 
                     if (check_color or check_shape) and (check_shape != check_color): #if one is true then we have valid line
                         y_line.append(temp_placement)
@@ -163,6 +165,7 @@ class Gamerules:
 
                 if(temp_tile.shape != placement.tile.shape and temp_tile.color != placement.tile.color):
                     x_line = None
+                    return x_line, y_line
 
                 if not temp_tile.is_temporary():
                     connected_to_perm = True
@@ -200,6 +203,7 @@ class Gamerules:
 
                 if(temp_tile.shape != placement.tile.shape and temp_tile.color != placement.tile.color):
                     x_line = None 
+                    return x_line, y_line
 
                 if (check_color or check_shape) and (check_shape != check_color): #if one is true then we have valid line
                     x_line.append(temp_placement)
@@ -212,7 +216,8 @@ class Gamerules:
                 x_line = None
                 break
         
-        if not connected_to_perm and not np.count_nonzero(board.get_board) == x_count + y_count + 1:
+        if not connected_to_perm and np.count_nonzero(board.get_board()) != x_count + y_count + 1:
+            #print(x_count, " ", y_count, "count: ", np.count_nonzero(board.get_board))
             return None, None
         
         return x_line, y_line
@@ -230,6 +235,7 @@ class Gamerules:
             False: if it is not a valid placement
         """
         x_line, y_line = self.get_lines(placement, board)
+        #print(x_line, " ", y_line, " ", np.count_nonzero(board.get_board()))
         if np.count_nonzero(board.get_board()) == 1:
             return True
         elif (x_line == [] and y_line == []) or x_line is None or y_line is None:
