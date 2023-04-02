@@ -217,7 +217,6 @@ class Gamerules:
                 break
         
         if not connected_to_perm and np.count_nonzero(board.get_board()) != x_count + y_count + 1:
-            #print(x_count, " ", y_count, "count: ", np.count_nonzero(board.get_board))
             return None, None
         
         return x_line, y_line
@@ -235,7 +234,6 @@ class Gamerules:
             False: if it is not a valid placement
         """
         x_line, y_line = self.get_lines(placement, board)
-        #print(x_line, " ", y_line, " ", np.count_nonzero(board.get_board()))
         if np.count_nonzero(board.get_board()) == 1:
             return True
         elif (x_line == [] and y_line == []) or x_line is None or y_line is None:
