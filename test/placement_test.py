@@ -64,6 +64,13 @@ def test_move(board: Board, placements: List[Placement], result: bool):
         ),
         (
             [
+                Placement(Tile(TileColor.RED, TileShape.CLUB), 111, 109),
+                Placement(Tile(TileColor.RED, TileShape.CROSS), 111, 111),
+            ],
+            True,
+        ),
+        (
+            [
                 Placement(Tile(TileColor.BLUE, TileShape.DIAMOND), 109, 110),
             ],
             False,
