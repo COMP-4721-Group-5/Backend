@@ -30,11 +30,15 @@ class Gamerules:
                 determined to be legal, false if it is not.
         """
                 
-                    
+        for placement in move:
+                self.__board.add_tile(placement)           
 
         for placement in move:
             if self.verify_placement(placement, board) is False:
-                return False  
+                for place in move:
+                    board.get_board()[place.y_coord][place.x_coord] = 0
+                return False
+         
 
         return True
 

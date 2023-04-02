@@ -130,9 +130,6 @@ class QwirkeleController:
             # Check if placements are valid
             valid_placement = True
             
-            for placement in curr_request.data:
-                self.__board.add_tile(placement)
-            
             valid_placement = self.__gamerules.verify_move(
                 curr_request.data, self.__board)
             
@@ -164,8 +161,6 @@ class QwirkeleController:
                 # then call self.__start_next_turn()
                 self.__start_next_turn()
             else:
-                for placement in curr_request.data:
-                    self.__board.get_board()[placement.y_coord][placement.x_coord] = 0
                 self.__logger.error(
                     f"Invalid placement request from {curr_request.connection.address}"
                 )
