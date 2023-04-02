@@ -419,11 +419,16 @@ class Gamerules:
                 below = Placement(tile, pos[0], pos[1] - 1)
                 right = Placement(tile, pos[0] + 1, pos[1])
                 left = Placement(tile, pos[0] - 1, pos[1])
-            if self.verify_placement(above, board) or self.verify_placement(below, board) or self.verify_placement(right, board) or self.verify_placement(left, board):
+            if (
+                self.verify_placement(above, board)
+                or self.verify_placement(below, board)
+                or self.verify_placement(right, board)
+                or self.verify_placement(left, board)
+            ):
                 return False
-        
+
         return True
-        
+
         # Every element in pos_tuple give (x,y) tuple
         # that has tile on the board
         """
@@ -436,5 +441,3 @@ class Gamerules:
                             return False
 
         return True"""
-
-

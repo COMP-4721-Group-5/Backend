@@ -143,7 +143,7 @@ class Tile(JsonableObject):
             return "Temporary %s %s tile" % (self.__color.name, self.__shape.name)
         else:
             return "%s %s tile" % (self.__color.name, self.__shape.name)
-    
+
     def __hash__(self) -> int:
         return self.hex_value
 
