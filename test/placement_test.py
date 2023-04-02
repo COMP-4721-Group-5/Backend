@@ -110,7 +110,7 @@ def test_game_over():
             board.add_tile(
                 Placement(Tile(colors[i], shapes[i], temp=False), 110 + i, 110 + j)
             )
-            bag.append(Tile(colors[i], shapes[i]))
+            bag.append(Tile(colors[i], shapes[j]))
         for player in players:
             player[i] = Tile(colors[i], shapes[i])
     rule = Gamerules()
