@@ -211,9 +211,10 @@ class Gamerules:
             if x_count > 5 or temp_tile == placement.tile:
                 x_line = None
                 break
-            
-        if not connected_to_perm:
+
+        if not connected_to_perm and not np.count_nonzero(board.get_board) == x_count + y_count + 1:
             return None, None
+        
         return x_line, y_line
 
     def verify_placement(self, placement: Placement, board: Board) -> bool:
