@@ -89,7 +89,7 @@ class Gamerules:
                     connected_to_perm = True
 
                 if(temp_tile.shape != placement.tile.shape and temp_tile.color != placement.tile.color):
-                    x_line = None   
+                    y_line = None   
 
                 if (check_color or check_shape) and (check_shape != check_color): #if one is true then we have valid line
                     y_line.append(temp_placement)
@@ -127,7 +127,7 @@ class Gamerules:
                         connected_to_perm = True
 
                     if(temp_tile.shape != placement.tile.shape and temp_tile.color != placement.tile.color):
-                        x_line = None    
+                        y_line = None    
 
                     if (check_color or check_shape) and (check_shape != check_color): #if one is true then we have valid line
                         y_line.append(temp_placement)
@@ -168,8 +168,8 @@ class Gamerules:
                     connected_to_perm = True
 
                 if (check_color or check_shape) and (check_shape != check_color): #if one is true then we have valid line
-                    y_line.append(temp_placement)
-                    y_count += 1
+                    x_line.append(temp_placement)
+                    x_count += 1
                 else:  # if there is an invalid match in the line
                     x_line = None
                     break
@@ -202,8 +202,8 @@ class Gamerules:
                     x_line = None 
 
                 if (check_color or check_shape) and (check_shape != check_color): #if one is true then we have valid line
-                    y_line.append(temp_placement)
-                    y_count += 1
+                    x_line.append(temp_placement)
+                    x_count += 1
                 else:
                     x_line = None
                     break
