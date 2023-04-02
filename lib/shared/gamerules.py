@@ -407,7 +407,7 @@ class Gamerules:
         Returns: True if the game is over, false if not
         """
         tile_pos = np.where(board.get_board() != 0)
-        pos_tuples = list(zip(tile_pos[0], tile_pos[1]))
+        pos_tuples = list(zip(tile_pos[1], tile_pos[0]))
 
         tiles = set(bag)
 
@@ -415,11 +415,11 @@ class Gamerules:
             tiles = tiles.union(set(player.get_hand()))
         for pos in pos_tuples:
             for tile in tiles:
-                above = Placement(tile, pos + (0, 1))
-                below = Placement(tile, pos + (0, -1))
-                right = Placement(tile, pos + (1, 0))
-                left = Placement(tile, pos + (-1, 0))
-            if self.verify_placement(above) or self.verify_placement(below) or self.verify_placement(right) or self.verify_placement(left):
+                above = Placement(tile, pos[0], pos[1] + 1)
+                below = Placement(tile, pos[0], pos[1] - 1)
+                right = Placement(tile, pos[0] + 1, pos[1])
+                left = Placement(tile, pos[0] - 1, pos[1])
+            if self.verify_placement(above, board) or self.verify_placement(below, board) or self.verify_placement(right, board) or self.verify_placement(left, board):
                 return False
         
         return True
