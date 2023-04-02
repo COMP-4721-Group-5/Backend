@@ -29,16 +29,16 @@ class Gamerules:
             A boolean list corresponding to the validity of the move, true if the move is
                 determined to be legal, false if it is not.
         """
-                
+
         for placement in move:
-            board.add_tile(placement)      
+            board.add_tile(placement)
 
         for placement in move:
             if self.verify_placement(placement, board) is False:
                 for place in move:
                     board.get_board()[place.y_coord][place.x_coord] = 0
                 return False
-         
+
         for place in move:
             board.get_board()[place.y_coord][place.x_coord] = 0
 
@@ -79,20 +79,28 @@ class Gamerules:
                 break
             else:
                 if (
-                    temp_tile.shape == placement.tile.shape #if shape matches we are not checking for color
+                    temp_tile.shape
+                    == placement.tile.shape  # if shape matches we are not checking for color
                 ):
                     check_color = False
-                if temp_tile.color == placement.tile.color: #if color matches we are not checking for shape
+                if (
+                    temp_tile.color == placement.tile.color
+                ):  # if color matches we are not checking for shape
                     check_shape = False
 
                 if not temp_tile.is_temporary():
                     connected_to_perm = True
 
-                if(temp_tile.shape != placement.tile.shape and temp_tile.color != placement.tile.color):
+                if (
+                    temp_tile.shape != placement.tile.shape
+                    and temp_tile.color != placement.tile.color
+                ):
                     y_line = None
                     return x_line, y_line
 
-                if (check_color or check_shape) and (check_shape != check_color): #if one is true then we have valid line
+                if (check_color or check_shape) and (
+                    check_shape != check_color
+                ):  # if one is true then we have valid line
                     y_line.append(temp_placement)
                     y_count += 1
                 else:  # If the line contains an invalid match
@@ -118,20 +126,28 @@ class Gamerules:
                     break
                 else:
                     if (
-                    temp_tile.shape == placement.tile.shape #if shape matches we are not checking for color
+                        temp_tile.shape
+                        == placement.tile.shape  # if shape matches we are not checking for color
                     ):
                         check_color = False
-                    if temp_tile.color == placement.tile.color: #if color matches we are not checking for shape
+                    if (
+                        temp_tile.color == placement.tile.color
+                    ):  # if color matches we are not checking for shape
                         check_shape = False
 
                     if not temp_tile.is_temporary():
                         connected_to_perm = True
 
-                    if(temp_tile.shape != placement.tile.shape and temp_tile.color != placement.tile.color):
+                    if (
+                        temp_tile.shape != placement.tile.shape
+                        and temp_tile.color != placement.tile.color
+                    ):
                         y_line = None
-                        return x_line, y_line 
+                        return x_line, y_line
 
-                    if (check_color or check_shape) and (check_shape != check_color): #if one is true then we have valid line
+                    if (check_color or check_shape) and (
+                        check_shape != check_color
+                    ):  # if one is true then we have valid line
                         y_line.append(temp_placement)
                         y_count += 1
                     else:  # If the line contains an invalid match
@@ -157,20 +173,28 @@ class Gamerules:
                 break
             else:
                 if (
-                    temp_tile.shape == placement.tile.shape #if shape matches we are not checking for color
+                    temp_tile.shape
+                    == placement.tile.shape  # if shape matches we are not checking for color
                 ):
                     check_color = False
-                if temp_tile.color == placement.tile.color: #if color matches we are not checking for shape
+                if (
+                    temp_tile.color == placement.tile.color
+                ):  # if color matches we are not checking for shape
                     check_shape = False
 
-                if(temp_tile.shape != placement.tile.shape and temp_tile.color != placement.tile.color):
+                if (
+                    temp_tile.shape != placement.tile.shape
+                    and temp_tile.color != placement.tile.color
+                ):
                     x_line = None
                     return x_line, y_line
 
                 if not temp_tile.is_temporary():
                     connected_to_perm = True
 
-                if (check_color or check_shape) and (check_shape != check_color): #if one is true then we have valid line
+                if (check_color or check_shape) and (
+                    check_shape != check_color
+                ):  # if one is true then we have valid line
                     x_line.append(temp_placement)
                     x_count += 1
                 else:  # if there is an invalid match in the line
@@ -192,20 +216,28 @@ class Gamerules:
                 break
             else:
                 if (
-                    temp_tile.shape == placement.tile.shape #if shape matches we are not checking for color
+                    temp_tile.shape
+                    == placement.tile.shape  # if shape matches we are not checking for color
                 ):
                     check_color = False
-                if temp_tile.color == placement.tile.color: #if color matches we are not checking for shape
+                if (
+                    temp_tile.color == placement.tile.color
+                ):  # if color matches we are not checking for shape
                     check_shape = False
 
                 if not temp_tile.is_temporary():
                     connected_to_perm = True
 
-                if(temp_tile.shape != placement.tile.shape and temp_tile.color != placement.tile.color):
-                    x_line = None 
+                if (
+                    temp_tile.shape != placement.tile.shape
+                    and temp_tile.color != placement.tile.color
+                ):
+                    x_line = None
                     return x_line, y_line
 
-                if (check_color or check_shape) and (check_shape != check_color): #if one is true then we have valid line
+                if (check_color or check_shape) and (
+                    check_shape != check_color
+                ):  # if one is true then we have valid line
                     x_line.append(temp_placement)
                     x_count += 1
                 else:
@@ -215,10 +247,13 @@ class Gamerules:
             if x_count > 5 or temp_tile == placement.tile:
                 x_line = None
                 break
-        
-        if not connected_to_perm and np.count_nonzero(board.get_board()) != x_count + y_count + 1:
+
+        if (
+            not connected_to_perm
+            and np.count_nonzero(board.get_board()) != x_count + y_count + 1
+        ):
             return None, None
-        
+
         return x_line, y_line
 
     def verify_placement(self, placement: Placement, board: Board) -> bool:
