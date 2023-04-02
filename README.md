@@ -12,3 +12,13 @@ After cloning this repository, you should first navigate to the cloned directory
 ### Running the server
 
 Simply run ```python run_server.py```. The server port will be displayed within the terminal.
+
+### Command Line Arguments
+
+```text
+options:
+  -h, --help         show this help message and exit
+  --address ADDRESS  Address to bind the socket
+  --port PORT        Port number to bind the socket (default: 1234)
+  --players {2,3,4}  Number of players to join this server (default: 2)
+```
