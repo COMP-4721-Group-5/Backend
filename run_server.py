@@ -29,7 +29,7 @@ def main():
         nargs=1,
         help="Port number to bind the socket (default: %(default)d)",
         type=int,
-        default=[1234],
+        default=1234,
     )
     parser.add_argument(
         "--players",
@@ -43,7 +43,9 @@ def main():
     args = parser.parse_args()
 
     address = args.address
-    port = args.port[0]
+    port: int = args.port
+    if args.port != 1234:
+        port = args.port[0]
     players = args.players
 
     if port <= 0:
