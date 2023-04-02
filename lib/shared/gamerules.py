@@ -31,7 +31,7 @@ class Gamerules:
         """
                 
         for placement in move:
-                board.add_tile(placement)      
+            board.add_tile(placement)      
 
         for placement in move:
             if self.verify_placement(placement, board) is False:
