@@ -67,6 +67,7 @@ class Gamerules:
         skip = False
         check_shape = True
         check_color = True
+        connnect_to_perm = False
         for i in range(5):  # Checks up to 5 tiles above the horizontal
             if placement.y_coord + i + 1 > 217:
                 break
@@ -83,6 +84,9 @@ class Gamerules:
                     check_color = False
                 if temp_tile.color == placement.tile.color: #if color matches we are not checking for shape
                     check_shape = False
+
+                if not temp_tile.is_temporary():
+                    connected_to_perm = True
 
                 if(temp_tile.shape != placement.tile.shape and temp_tile.color != placement.tile.color):
                     x_line = None   
@@ -118,6 +122,9 @@ class Gamerules:
                         check_color = False
                     if temp_tile.color == placement.tile.color: #if color matches we are not checking for shape
                         check_shape = False
+
+                    if not temp_tile.is_temporary():
+                        connected_to_perm = True
 
                     if(temp_tile.shape != placement.tile.shape and temp_tile.color != placement.tile.color):
                         x_line = None    
@@ -157,6 +164,9 @@ class Gamerules:
                 if(temp_tile.shape != placement.tile.shape and temp_tile.color != placement.tile.color):
                     x_line = None
 
+                if not temp_tile.is_temporary():
+                    connected_to_perm = True
+
                 if (check_color or check_shape) and (check_shape != check_color): #if one is true then we have valid line
                     y_line.append(temp_placement)
                     y_count += 1
@@ -185,6 +195,9 @@ class Gamerules:
                 if temp_tile.color == placement.tile.color: #if color matches we are not checking for shape
                     check_shape = False
 
+                if not temp_tile.is_temporary():
+                    connected_to_perm = True
+
                 if(temp_tile.shape != placement.tile.shape and temp_tile.color != placement.tile.color):
                     x_line = None 
 
@@ -198,7 +211,9 @@ class Gamerules:
             if x_count > 5 or temp_tile == placement.tile:
                 x_line = None
                 break
-
+            
+        if not connected_to_perm:
+            return None, None
         return x_line, y_line
 
     def verify_placement(self, placement: Placement, board: Board) -> bool:
