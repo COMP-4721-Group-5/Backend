@@ -98,6 +98,7 @@ def test_complex_move(placements: List[Placement], result: bool):
     rule = Gamerules()
     assert result == rule.verify_move(placements, board)
 
+
 def test_game_over():
     board = Board()
     bag = list()
@@ -106,7 +107,9 @@ def test_game_over():
     players = [Player(), Player()]
     for i in range(6):
         for j in range(6):
-            board.add_tile(Placement(Tile(colors[i], shapes[i], temp=False), 110 + i, 110 + j))
+            board.add_tile(
+                Placement(Tile(colors[i], shapes[i], temp=False), 110 + i, 110 + j)
+            )
             bag.append(Tile(colors[i], shapes[i]))
         for player in players:
             player[i] = Tile(colors[i], shapes[i])
