@@ -67,7 +67,7 @@ class Gamerules:
         skip = False
         check_shape = True
         check_color = True
-        connnect_to_perm = False
+        connected_to_perm = False
         for i in range(5):  # Checks up to 5 tiles above the horizontal
             if placement.y_coord + i + 1 > 217:
                 break
