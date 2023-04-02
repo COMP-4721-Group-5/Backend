@@ -1,4 +1,9 @@
-# Setup guide
+# 🔶 Qwirkle (Server) 🔷
+
+[![CI](https://github.com/COMP-4721-Group-5/Backend/actions/workflows/ci.yml/badge.svg)](https://github.com/COMP-4721-Group-5/Backend/actions/workflows/ci.yml)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+## Setup
 
 ### Dependencies
 
