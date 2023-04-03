@@ -91,6 +91,8 @@ def main():
             for connection in connections:
                 connection.stop_listening()
             raise ex
+    logging.info("Game over, exiting.")
+    connection.stop_listening()
 
 
 if __name__ == "__main__":
