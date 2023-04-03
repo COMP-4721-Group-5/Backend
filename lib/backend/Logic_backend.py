@@ -220,8 +220,14 @@ class QwirkeleController:
 
     def __winner(self) -> int:
         if not self.__active:
-            # TODO: Check this
-            NotImplemented
+            max_score = -1
+            max_player = -1
+            scores = self.__scores()
+            for i in range(len(scores)):
+                if scores[i] > max_score:
+                    max_score = scores[i]
+                    max_player = i
+            return max_player
         return -1
 
     @staticmethod
