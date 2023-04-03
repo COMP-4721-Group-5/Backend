@@ -4,6 +4,7 @@ from argparse import ArgumentParser
 from argparse import RawTextHelpFormatter
 import logging
 import socket
+import sys
 from queue import Queue
 from typing import Final, List
 
@@ -80,17 +81,20 @@ def main():
             logging.critical("Ctrl+C received, exiting.")
             for connection in connections:
                 connection.stop_listening()
-            break
+            sys.exit(1)
         except ConnectionError:
             logging.error("Closing all other connections.")
             for connection in connections:
                 connection.stop_listening()
             logging.error("Exiting")
-            break
+            sys.exit(1)
         except Exception as ex:
             for connection in connections:
                 connection.stop_listening()
             raise ex
+    logging.info("Game over, exiting.")
+    for connection in connections:
+        connection.stop_listening()
 
 
 if __name__ == "__main__":
