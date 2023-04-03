@@ -397,7 +397,7 @@ class Gamerules:
 
         return scoreRemoval
 
-    def game_over(self, players: List[Player], board: Board):
+    def game_over(self, players: List[Player], board: Board, bag: list[Tile]):
         """Checks if the game is over
 
         Args:
@@ -407,10 +407,31 @@ class Gamerules:
         Returns: True if the game is over, false if not
         """
         tile_pos = np.where(board.get_board() != 0)
-        pos_tuples = list(zip(tile_pos[0], tile_pos[1]))
+        pos_tuples = list(zip(tile_pos[1], tile_pos[0]))
+
+        tiles = set(bag)
+
+        for player in players:
+            tiles = tiles.union(set(player.get_hand()))
+        for pos in pos_tuples:
+            for tile in tiles:
+                above = Placement(tile, pos[0], pos[1] + 1)
+                below = Placement(tile, pos[0], pos[1] - 1)
+                right = Placement(tile, pos[0] + 1, pos[1])
+                left = Placement(tile, pos[0] - 1, pos[1])
+            if (
+                self.verify_placement(above, board)
+                or self.verify_placement(below, board)
+                or self.verify_placement(right, board)
+                or self.verify_placement(left, board)
+            ):
+                return False
+
+        return True
+
         # Every element in pos_tuple give (x,y) tuple
         # that has tile on the board
-
+        """
         for x in range(217):
             for y in range(217):
                 for player in players:
@@ -419,4 +440,4 @@ class Gamerules:
                         if self.verify_placement(placement, board):
                             return False
 
-        return True
+        return True"""

@@ -144,6 +144,9 @@ class Tile(JsonableObject):
         else:
             return "%s %s tile" % (self.__color.name, self.__shape.name)
 
+    def __hash__(self) -> int:
+        return self.hex_value
+
     def json_serialize(self) -> Dict[str, bool | int]:
         dict_form: Dict[str, bool | int] = {
             "type": Tile.JSONABLE_TYPE,
